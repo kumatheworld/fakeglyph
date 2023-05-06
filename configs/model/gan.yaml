@@ -1,0 +1,7 @@
+_target_: fakeglyph.model.generative.GAN
+generator: ???
+discriminator: ???
+
+defaults:
+  - generator: gen64
+  - discriminator: dis64

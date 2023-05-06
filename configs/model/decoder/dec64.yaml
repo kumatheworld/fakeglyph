@@ -1,0 +1,32 @@
+_target_: fakeglyph.model.generator.Generator
+input_shape:
+  - 128
+  - 1
+  - 1
+layers:
+  _target_: torch.nn.Sequential
+  _args_:
+    # 1
+    - _target_: fakeglyph.model.units.ConvTransposeBNReLU2d
+      in_channels: 128
+      out_channels: 256
+      kernel_size: 4
+      bias: false
+    # 4
+    - _target_: fakeglyph.model.units.ResBlockInterpolate2d.upsample
+      in_channels: 256
+    # 8
+    - _target_: fakeglyph.model.units.ResBlockInterpolate2d.upsample
+      in_channels: 128
+    # 16
+    - _target_: fakeglyph.model.units.ResBlockInterpolate2d.upsample
+      in_channels: 64
+    # 32
+    - _target_: torch.nn.ConvTranspose2d
+      in_channels: 32
+      out_channels: 1
+      kernel_size: 4
+      stride: 2
+      padding: 1
+    # 64
+    - _target_: torch.nn.Sigmoid

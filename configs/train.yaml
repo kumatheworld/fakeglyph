@@ -1,0 +1,29 @@
+_target_: fakeglyph.train.train
+seed: null
+device: mps
+batch_size: 64
+dataloader:
+  _target_: torch.utils.data.DataLoader
+  dataset: ???
+  batch_size: ${..batch_size}
+  shuffle: true
+model: ???
+num_epochs: 100
+optimizer_partial:
+  _partial_: true
+  _target_: torch.optim.Adam
+  lr: 0.001
+lr_scheduler_partial:
+  _partial_: true
+  _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+  T_max: ${..num_epochs}
+result_dir:
+  _target_: pathlib.Path
+  _args_:
+    - ${hydra:runtime.output_dir}
+
+defaults:
+  - _self_
+  - hydra: default
+  - data@dataloader.dataset: cjk
+  - model: vae

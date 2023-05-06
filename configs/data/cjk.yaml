@@ -1,0 +1,8 @@
+_target_: fakeglyph.data.dataset.BinaryLetterDataset
+file: datasets/cjk${.font.size}.pt
+font:
+  _target_: PIL.ImageFont.truetype
+  font: /System/Library/Fonts/PingFang.ttc
+  size: 64
+letters:
+  _target_: fakeglyph.data.charset.cjk_unified_ideographs

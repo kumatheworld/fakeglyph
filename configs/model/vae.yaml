@@ -1,0 +1,9 @@
+_target_: fakeglyph.model.generative.VAE
+encoder: ???
+decoder: ???
+beta: 10
+reduction: batchmean
+
+defaults:
+  - encoder: enc64
+  - decoder: dec64
