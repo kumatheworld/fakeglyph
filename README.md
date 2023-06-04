@@ -1,4 +1,5 @@
 # fakeglyph
+![samples.gif](https://github.com/kumatheworld/fakeglyph/assets/14884102/5efcf9a5-4102-478c-84e1-8fc162bec663)
 
 This repository lets you train generative models that try to produce letters.
 
