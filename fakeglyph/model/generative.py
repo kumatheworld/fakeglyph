@@ -41,7 +41,7 @@ class VAE(GenerativeModel):
             case "mean":
                 self.reducer = methodcaller("mean")
             case _:
-                raise ValueError("{reduction} is not a valid value for reduction")
+                raise ValueError(f"{reduction} is not a valid value for reduction")
 
     def step(self, x: torch.Tensor) -> Losses:
         self.zero_grad()
