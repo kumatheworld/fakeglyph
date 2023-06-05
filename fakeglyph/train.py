@@ -36,9 +36,7 @@ def train(
 
     generator = model.generator
     fixed_noise = generator.generate_noise(batch_size)
-    dirname = result_dir.stem
-    prefix = type(model).__name__[0].lower()
-    ckpt_path = result_dir / f"{prefix}{dirname}.pt"
+    ckpt_path = result_dir / f"{type(model).__name__.lower()}.pt"
     sample_dir = result_dir / "samples"
     sample_dir.mkdir()
     writer = SummaryWriter(result_dir / "tensorboard")
@@ -63,7 +61,7 @@ def train(
             sample_tensor = generator(fixed_noise).detach().cpu()
             sample_grid = make_grid(sample_tensor)
             sample: Image = to_pil_image(sample_grid)
-            sample_name = f"{dirname}_ep{epoch}.png"
+            sample_name = f"ep{epoch}.png"
             sample_path = sample_dir / sample_name
             sample.save(sample_path)
             writer.add_images("samples", sample_tensor, epoch)
