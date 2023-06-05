@@ -32,9 +32,9 @@ class VAE(GenerativeModel):
     ) -> None:
         super().__init__(decoder)
         self.encoder = encoder
-        self.reducer: T2T
 
         self.beta = beta
+        self.reducer: T2T
         match reduction:
             case "batchmean":
                 self.reducer = lambda t: t.sum() / t.shape[0]
