@@ -50,8 +50,8 @@ class VAE(GenerativeModel):
 
         y = encoder(x)
         mean, logstd = y.chunk(chunks=2, dim=1)
-        kl_div_elems = (mean.square() + torch.expm1(2 * logstd)) / 2 - logstd
-        kl_div = self.reducer(kl_div_elems)
+        loss_reg_elems = (mean.square() + torch.expm1(2 * logstd)) / 2 - logstd
+        loss_reg = self.reducer(loss_reg_elems)
 
         noise = decoder.generate_noise(x.shape[0])
         std = logstd.exp()
@@ -60,10 +60,10 @@ class VAE(GenerativeModel):
         loss_rec_elem = binary_cross_entropy(w, x, reduction="none")
         loss_rec = self.reducer(loss_rec_elem)
 
-        loss = loss_rec + self.beta * kl_div
+        loss = loss_rec + self.beta * loss_reg
         loss.backward()
 
-        losses = {"kl_div": kl_div.item(), "loss_rec": loss_rec.item()}
+        losses = {"loss_rec": loss_rec.item(), "loss_reg": loss_reg.item()}
         return losses
 
 
@@ -97,3 +97,14 @@ class GAN(GenerativeModel):
             "loss_g": loss_g.item(),
         }
         return losses
+
+
+class DDPM(GenerativeModel):
+    def __init__(self, model: Module, beta: torch.Tensor) -> None:
+        # super().__init__()
+        self.model = model
+        self.beta = beta
+        alpha = 1 - beta
+        alpha_ = alpha.cumprod(0)
+        self.sqrt_alpha_ = alpha_.rsqrt()
+        self.sqrt_1m_alpha_ = (1 - alpha_).rsqrt()
