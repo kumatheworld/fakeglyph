@@ -54,7 +54,7 @@ def train(
             writer.add_scalars("losses", losses, step)
             step += 1
 
-        torch.save(generator.state_dict(), ckpt_path)
+        torch.save(model.state_dict(), ckpt_path)
 
         model.eval()
         with torch.inference_mode():
