@@ -2,14 +2,12 @@ from pathlib import Path
 from typing import Callable, Iterator
 
 import torch
-from PIL.Image import Image
 from torch.nn import Parameter
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import LRScheduler
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard.writer import SummaryWriter
-from torchvision.transforms.functional import to_pil_image
-from torchvision.utils import make_grid
+from torchvision.utils import save_image
 from tqdm import tqdm
 
 from .model.generative import GenerativeModel
@@ -58,12 +56,9 @@ def train(
 
         model.eval()
         with torch.inference_mode():
-            sample_tensor = generator(fixed_noise).detach().cpu()
-            sample_grid = make_grid(sample_tensor)
-            sample: Image = to_pil_image(sample_grid)
-            sample_name = f"ep{epoch}.png"
-            sample_path = sample_dir / sample_name
-            sample.save(sample_path)
-            writer.add_images("samples", sample_tensor, epoch)
+            samples = generator(fixed_noise)
+            sample_path = sample_dir / f"ep{epoch}.png"
+            save_image(samples, sample_path)
+            writer.add_images("samples", samples, epoch)
 
         lr_scheduler.step()
