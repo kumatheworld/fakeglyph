@@ -97,14 +97,3 @@ class GAN(GenerativeModel):
             "loss_g": loss_g.item(),
         }
         return losses
-
-
-class DDPM(GenerativeModel):
-    def __init__(self, model: Module, beta: torch.Tensor) -> None:
-        # super().__init__()
-        self.model = model
-        self.beta = beta
-        alpha = 1 - beta
-        alpha_ = alpha.cumprod(0)
-        self.sqrt_alpha_ = alpha_.rsqrt()
-        self.sqrt_1m_alpha_ = (1 - alpha_).rsqrt()
