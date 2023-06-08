@@ -16,7 +16,7 @@ from .utils.seed import set_seed
 
 def train(
     seed: int | None,
-    device: torch.device,
+    device: int | str | torch.device | None,
     batch_size: int,
     dataloader: DataLoader,
     model: GenerativeModel,
