@@ -16,7 +16,7 @@ class View(nn.Module):
 
 class ConvBNReLU2d(nn.Sequential):
     @copy_signature(nn.Conv2d.__init__)
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         conv = nn.Conv2d(*args, **kwargs)
         bn = nn.BatchNorm2d(conv.out_channels)
         relu = nn.ReLU(inplace=True)
@@ -29,7 +29,7 @@ class ConvBNReLU2d(nn.Sequential):
 
 class ConvTransposeBNReLU2d(nn.Sequential):
     @copy_signature(nn.ConvTranspose2d.__init__)
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         conv = nn.ConvTranspose2d(*args, **kwargs)
         bn = nn.BatchNorm2d(conv.out_channels)
         relu = nn.ReLU(inplace=True)
@@ -66,7 +66,7 @@ class ResBlock2d(nn.Module):
 
 class Interpolate(nn.Module):
     @copy_signature(F.interpolate)  # Dirty hack: self shouldn't coincide with input
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__()
         self.forward = partial(F.interpolate, *args, **kwargs)
 
