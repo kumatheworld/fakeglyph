@@ -10,8 +10,8 @@ from torch.utils.tensorboard.writer import SummaryWriter
 from torchvision.utils import save_image
 from tqdm import tqdm
 
-from .model.generative import GenerativeModel
-from .utils.seed import set_seed
+from fakeglyph.model.generative import GenerativeModel
+from fakeglyph.utils.seed import set_seed
 
 
 def train(
