@@ -5,8 +5,8 @@ _args_:
     in_channels: 1
     out_channels: 8
     kernel_size: 8
-    stride: 2
-    padding: 1
+    stride: 4
+    padding: 2
     bias: false
   # 16
   - _target_: fakeglyph.model.units.ConvBNReLU2d.downsample
