@@ -12,8 +12,8 @@ class Generator(T2TModule):
         self.input_shape = tuple(input_shape)
         self.layers = layers
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.layers(x)
+    def forward(self, z: torch.Tensor) -> torch.Tensor:
+        return self.layers(z)
 
     @cached_property
     def _empty(self) -> torch.Tensor:
