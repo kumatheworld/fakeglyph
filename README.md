@@ -14,7 +14,7 @@ This repository lets you train generative models that try to produce letters.
 
 ## Train models
 
-The first time you run the script, you'll need some time to generate the dataset, which will be cached under [datasets/](datasets/). You can easily change the model architecture by editting config files under [configs/model/](configs/model/).
+The first time you run the script, you'll need some time to generate the dataset, which will be cached under [datasets/](datasets/). You can easily change the model architecture by editing config files under [configs/model/](configs/model/).
 
 ### Train (β-)VAE
 
