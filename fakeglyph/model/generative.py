@@ -7,7 +7,7 @@ from torch.nn import Module
 from torch.nn.functional import binary_cross_entropy, softplus
 
 from fakeglyph.model.generator import Generator
-from fakeglyph.utils.typing import T2T, Losses, T2TModule
+from fakeglyph.utils.typehints import T2T, Losses, T2TModule
 
 softplus: T2T
 

@@ -3,7 +3,7 @@ from functools import cached_property
 
 import torch
 
-from fakeglyph.utils.typing import T2TModule
+from fakeglyph.utils.typehints import T2TModule
 
 
 class Generator(T2TModule):

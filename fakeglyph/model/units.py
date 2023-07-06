@@ -5,7 +5,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from fakeglyph.utils.typing import copy_signature
+from fakeglyph.utils.typehints import copy_signature
 
 
 class View(nn.Module):
