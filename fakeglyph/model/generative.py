@@ -37,7 +37,7 @@ class VAE(GenerativeModel):
         self.reducer: T2T
         match reduction:
             case "batchmean":
-                self.reducer = lambda t: t.sum() / t.shape[0]
+                self.reducer = lambda t: t.sum() / len(t)
             case "mean":
                 self.reducer = methodcaller("mean")
             case _:
@@ -53,7 +53,7 @@ class VAE(GenerativeModel):
         loss_reg_elems = (mean.square() + torch.expm1(2 * logstd)) / 2 - logstd
         loss_reg = self.reducer(loss_reg_elems)
 
-        noise = decoder.generate_noise(x.shape[0])
+        noise = decoder.generate_noise(len(x))
         std = logstd.exp()
         z = mean + std * noise
         w = decoder(z)
@@ -80,7 +80,7 @@ class GAN(GenerativeModel):
         logits_dr = discriminator(x)
         loss_dr = softplus(-logits_dr).mean()
 
-        fake = generator.sample(x.shape[0])
+        fake = generator.sample(len(x))
         logits_df = discriminator(fake.detach())
         loss_df = softplus(logits_df).mean()
         loss_d = loss_dr + loss_df
