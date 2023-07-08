@@ -22,8 +22,8 @@ class BinaryLetterDataset(Dataset):
                 with Image.new(mode="1", size=(size, size), color=False) as image:
                     draw = ImageDraw.Draw(image)
                     left, top, right, bottom = font.getbbox(text)
-                    x = (size - left - right) / 2
-                    y = (size - top - bottom) / 2
+                    x = (size - 1 - left - right) / 2
+                    y = (size - 1 - top - bottom) / 2
                     draw.text((x, y), text, fill=True, font=font)
                     image_array = np.array(image)
                 image_tensor = torch.from_numpy(image_array)
