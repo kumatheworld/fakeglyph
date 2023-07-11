@@ -1,5 +1,6 @@
 from functools import partial
 from operator import methodcaller
+from typing import Callable
 
 import torch
 import torch.nn.functional as F
@@ -8,10 +9,22 @@ from torch import nn
 from fakeglyph.utils.typehints import copy_signature
 
 
-class View(nn.Module):
-    def __init__(self, *shape: int) -> None:
+class Functional(nn.Module):
+    def __init__(self, func: Callable) -> None:
         super().__init__()
-        self.forward = methodcaller("view", *shape)
+        self.forward = func
+
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}({self.forward})"
+
+    @classmethod
+    def view(cls, *shape: int):
+        return cls(methodcaller("view", *shape))
+
+    @classmethod
+    @copy_signature(F.interpolate)  # Dirty hack: cls shouldn't coincide with input
+    def interpolate(cls, *args, **kwargs):
+        return cls(partial(F.interpolate, *args, **kwargs))
 
 
 class ConvBNReLU2d(nn.Sequential):
@@ -64,19 +77,12 @@ class ResBlock2d(nn.Module):
         return z
 
 
-class Interpolate(nn.Module):
-    @copy_signature(F.interpolate)  # Dirty hack: self shouldn't coincide with input
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__()
-        self.forward = partial(F.interpolate, *args, **kwargs)
-
-
 class ResBlockInterpolate2d(nn.Sequential):
     def __init__(self, scale_factor: float, in_channels: int) -> None:
         out_channels = int(in_channels / scale_factor)
         super().__init__(
             ResBlock2d(in_channels),
-            Interpolate(scale_factor=scale_factor, mode="bilinear"),
+            Functional.interpolate(scale_factor=scale_factor, mode="bilinear"),
             ConvBNReLU2d(in_channels, out_channels, 1, bias=False),
         )
 
