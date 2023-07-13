@@ -1,4 +1,5 @@
-from typing import Callable, TypeAlias, TypeVar
+from collections.abc import Callable
+from typing import TypeAlias, TypeVar
 
 import torch
 from torch.nn import Module

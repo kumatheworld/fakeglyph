@@ -1,5 +1,5 @@
+from collections.abc import Callable, Iterator
 from pathlib import Path
-from typing import Callable, Iterator
 
 import torch
 from torch.nn import Parameter

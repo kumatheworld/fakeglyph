@@ -1,6 +1,6 @@
+from collections.abc import Callable
 from functools import partial
 from operator import methodcaller
-from typing import Callable
 
 import torch
 import torch.nn.functional as F
