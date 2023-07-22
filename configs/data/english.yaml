@@ -1,0 +1,9 @@
+_target_: fakeglyph.data.dataset.BinaryLetterDataset
+file: datasets/english${.font.size}.pt
+font:
+  _target_: PIL.ImageFont.truetype
+  font: "/Library/Fonts/Arial\ Unicode.ttf"
+  size: 32
+letters:
+  _target_: hydra._internal.utils._locate
+  path: string.ascii_letters
