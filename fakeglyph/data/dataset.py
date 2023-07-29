@@ -1,8 +1,12 @@
+from logging import getLogger
+
 import numpy as np
 import torch
 from PIL import Image, ImageDraw, ImageFont
 from torch.utils.data import Dataset
 from tqdm import tqdm
+
+logger = getLogger(__name__)
 
 
 class BinaryLetterDataset(Dataset):
@@ -22,6 +26,12 @@ class BinaryLetterDataset(Dataset):
                 with Image.new(mode="1", size=(size, size), color=False) as image:
                     draw = ImageDraw.Draw(image)
                     left, top, right, bottom = font.getbbox(text)
+                    if left >= right or top >= bottom:
+                        logger.warning(
+                            f"Skipping '{text}' as bounding box "
+                            f"{(left, top, right, bottom) = } looks invalid"
+                        )
+                        continue
                     x = (size - 1 - left - right) / 2
                     y = (size - 1 - top - bottom) / 2
                     draw.text((x, y), text, fill=True, font=font)
