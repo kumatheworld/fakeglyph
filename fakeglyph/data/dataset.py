@@ -41,9 +41,13 @@ class BinaryLetterDataset(Dataset):
 
             images_nhw = torch.stack(image_tensors)
             torch.save(images_nhw, file)
+            logger.info(f"Saving dataset at {file}")
+        else:
+            logger.info(f"Using cached dataset at {file}")
 
         images_n1hw = images_nhw.unsqueeze(1)
         self.images = images_n1hw
+        logger.info(f"Loaded dataset of shape {tuple(images_n1hw.shape)}")
 
     def __len__(self) -> int:
         return len(self.images)
