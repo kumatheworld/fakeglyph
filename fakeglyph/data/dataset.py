@@ -17,7 +17,7 @@ class BinaryLetterDataset(Dataset):
         letters: str,
     ) -> None:
         try:
-            images3d = torch.load(file)
+            images_nhw = torch.load(file)
         except FileNotFoundError:
             size = font.size
             image_tensors = []
@@ -39,11 +39,11 @@ class BinaryLetterDataset(Dataset):
                 image_tensor = torch.from_numpy(image_array)
                 image_tensors.append(image_tensor)
 
-            images3d = torch.stack(image_tensors)
-            torch.save(images3d, file)
+            images_nhw = torch.stack(image_tensors)
+            torch.save(images_nhw, file)
 
-        images4d = images3d.unsqueeze(1)
-        self.images = images4d
+        images_n1hw = images_nhw.unsqueeze(1)
+        self.images = images_n1hw
 
     def __len__(self) -> int:
         return len(self.images)
