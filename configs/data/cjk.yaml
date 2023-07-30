@@ -5,4 +5,4 @@ font:
   font: /System/Library/Fonts/PingFang.ttc
   size: 64
 letters:
-  _target_: fakeglyph.data.charset.cjk_unified_ideographs
+  _target_: fakeglyph.data.charset.cjk_extension
