@@ -93,3 +93,16 @@ class ResBlockInterpolate2d(nn.Sequential):
     @classmethod
     def upsample(cls, in_channels: int):
         return cls(2.0, in_channels)
+
+
+class ConditionalBatchNorm2d(nn.Module):
+    def __init__(self, num_features: int, num_classes: int) -> None:
+        super().__init__()
+        self.bn = nn.BatchNorm2d(num_features, affine=False)
+        self.gamma = nn.Parameter(torch.ones(num_classes, num_features, 1, 1))
+        self.beta = nn.Parameter(torch.zeros(num_classes, num_features, 1, 1))
+
+    def forward(self, x: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
+        y = self.bn(x)
+        z = self.gamma[t] * y + self.beta[t]
+        return z
